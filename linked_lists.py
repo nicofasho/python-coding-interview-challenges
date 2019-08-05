@@ -153,15 +153,38 @@ def sum_lists(l1, l2):
   return sum_str
 
 def is_palindrome(l):
+  # not in the spirit of the question asked i think
+  # n = l.head
+  # str = []
+
+  # while n != None:
+  #   str.append(n.data)
+  #   n = n.next
+  
+  # if str == str.reverse():
+  #   return True
+  # else:
+  #   return False
+
+  # copy and reverse the list and compare
   n = l.head
-  str = []
+  l2 = LinkedList(Node(None))
 
   while n != None:
-    str.append(n.data)
+    # copy of current node
+    node = Node(n.data)
+    # reversing
+    node.next = l2.head
+    l2.head = node
+    # iterating through first list
     n = n.next
   
-  if str == str.reverse():
-    return True
-  else:
-    return False
+  n1 = l.head
+  n2 = l2.head
 
+  while n1 != None and n2 != None:
+    if n1.data != n2.data:
+      return False
+    n1 = n1.next
+    n2 = n2.next
+  return n1 == None and n2 == None
