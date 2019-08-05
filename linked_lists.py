@@ -79,3 +79,25 @@ def return_kth_to_last(list, k):
     p2 = p2.next
   
   return p2
+
+def delete_middle_node(node):
+  # not the solution, don't have access to head
+  # n = list.head
+
+  # while n != None:
+  #   if n != list.head and n == node:
+  #     prev.next = n.next
+
+  # prev = n
+  # n = n.next
+
+  if node == None or node.next == None:
+    return False
+
+  # copy data from next node onto the current node
+  n = node.next
+  node.data = n.data
+  node.next = n.next
+  return True
+
+def partition(list, )
