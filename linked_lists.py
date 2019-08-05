@@ -188,3 +188,50 @@ def is_palindrome(l):
     n1 = n1.next
     n2 = n2.next
   return n1 == None and n2 == None
+
+def intersection(l1, l2):
+  n1 = l1.head
+  n2 = l2.head
+
+  c1 = 0
+  c2 = 0
+
+  while n1 != None:
+    t1 = n1
+    c1 += 1
+    n1 = n1.next
+
+  while n2 != None:
+    t2 = n2
+    c2 += 1
+    n2 = n2.next
+
+  # check if lengths are the same, if not truncate longer lists' head
+  if c1 != c2:
+    if c1 > c2:
+      diff = c1 - c2
+      n1 = l1.head
+      count = 0
+      while count < diff:
+        l1.head = n1.next
+        count += 1
+        n1 = n1.next
+    else:
+      diff = c2 - c1
+      n2 = l2.head
+      count = 0
+      while count < diff:
+        l2.head = n2.next
+        count += 1
+        n2 = n2.next
+
+  if t1 != t2:
+    return False
+  else:
+    n1 = l1.head
+    n2 = l2.head
+    while n1 != None:
+      if n1.data == n2.data:
+        return n1
+      n1 = n1.next
+      n2 = n2.next
