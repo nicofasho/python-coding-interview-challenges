@@ -235,3 +235,32 @@ def intersection(l1, l2):
         return n1
       n1 = n1.next
       n2 = n2.next
+
+def loop_detection(l):
+  # set both slowrunner (one step at a time) and fastrunner (two steps at a time)
+  slow = l.head
+  fast = l.head
+
+  while fast != None and fast.next != None:
+    # step through until there is a collision
+    slow = slow.next
+    fast = fast.next.next
+    # if there is a collision, break out
+    if slow == fast:
+      break
+  
+  # if there is no meeting point, therefore no loop
+  if fast == None or fast.next == None:
+    return None
+  
+  # set slow to head, keep fast at collision point
+  # if they move at same pace they will meet at loop start
+  # because 
+
+  slow = l.head
+  while slow != fast:
+    slow = slow.next
+    fast = fast.next
+  
+  # the start of the loop
+  return fast
