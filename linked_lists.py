@@ -45,3 +45,37 @@ def remove_dupes(list):
       nodes.append(n.data)
       prev = n
     n = n.next
+
+def return_kth_to_last(list, k):
+  # find element where count to next == None equals k?
+  # bad solution O(n^2)
+  # n = list.head
+  # count = 0
+
+  # while n != None:
+  #   n2 = n
+  #   while n2 != None:
+  #     if count == k:
+  #       return n
+  #     count += 1
+  #     n2 = n2.next
+
+  #   count = 0
+  #   n = n.next
+
+  # iterative solution O(n) time, O(1) space
+  p1 = list.head
+  p2 = list.head
+
+  count = 0
+  while p1 != None:
+    if count == k:
+      break
+    count += 1
+    p1 = p1.next
+
+  while p1 != None:
+    p1 = p1.next
+    p2 = p2.next
+  
+  return p2
