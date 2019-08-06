@@ -126,7 +126,6 @@ class FixedMultiStack:
 class StackMin:
   def __init__(self, top_node):
     self.top = StackMinNode(top_node)
-    self.min = self.top
 
   def pop(self): 
     if self.top == None:
@@ -137,7 +136,10 @@ class StackMin:
       return item
 
   def push(self, item):
-    t = StackNode(item)
+    t = StackMinNode(item)
+    if t.data < self.min.data:
+      self.min = t
+
     t.next = self.top
     self.top = t
 
@@ -149,7 +151,11 @@ class StackMin:
   def is_empty(self):
     return self.top == None
 
+  def min(self):
+    return peek().min
+
 class StackMinNode:
-  def __init__(self, data):
+  def __init__(self, data, minimum):
     self.data = data
     self.next = None
+    self.min = minimum
