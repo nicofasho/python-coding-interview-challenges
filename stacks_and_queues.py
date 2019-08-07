@@ -132,14 +132,11 @@ class StackMin:
       return False
     else:
       item = self.top.data
-      top = self.top.next
+      self.top = self.top.next
       return item
 
   def push(self, item):
-    t = StackMinNode(item)
-    if t.data < self.min.data:
-      self.min = t
-
+    t = StackMinNode(item, min(item.data, self.min()))
     t.next = self.top
     self.top = t
 
