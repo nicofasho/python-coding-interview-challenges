@@ -18,7 +18,7 @@ class Stack:
   def peek(self):
     if self.top == None:
       return False
-    return self.top.data
+    return self.top
   
   def is_empty(self):
     return self.top == None
@@ -123,36 +123,138 @@ class FixedMultiStack:
 # min which returns the minimum element, push pop and min should operate
 # in O(1) time
 
-class StackMin:
-  def __init__(self, top_node):
-    self.top = StackMinNode(top_node)
+# extend classes to track minimum
+class StackMin(Stack):
+  def push(self, data):
+    newMin = min(data, self.minimum())
+    super().push(NodeMin(data, newMin))
 
-  def pop(self): 
-    if self.top == None:
-      return False
+  def minimum(self):
+    if self.is_empty():
+      return 'error'
     else:
-      item = self.top.data
-      self.top = self.top.next
-      return item
+      return self.peek().minimum
 
-  def push(self, item):
-    t = StackMinNode(item, min(item.data, self.min()))
-    t.next = self.top
-    self.top = t
+class NodeMin(StackNode):
+  def __init__(self, v, minimum):
+    self.data = v
+    self.minimum = minimum
 
-  def peek(self):
-    if self.top == None:
-      return False
-    return self.top.data
-  
+# better solution: use additional stack which keeps track of mins
+class StackMin2(Stack):
+  def __init__(self, s2):
+    self.s2 = Stack(s2)
+
+  def push(self, data):
+    if data <= self.minimum():
+      self.s2.push(data)
+    super().push(data)
+
+  def pop(self):
+    value = super().pop()
+    if value == self.minimum():
+      self.s2.pop()
+    return value
+
+  def minimum(self):
+    if self.s2.is_empty():
+      return 'error'
+    else:
+      return self.s2.peek()
+
+# Stack of Plates: implement a set of stacks data structure that creates a new stack
+# once the previous one exceeds capacity
+
+class SetOfStacks:
+  def __init__(self, capacity):
+    self.capacity = capacity
+    self.stacks = []
+
+  def get_last_stack(self):
+    if len(self.stacks) == 0:
+      return None
+    return self.stacks[-1]
+
+  def push(self, data):
+    last = self.get_last_stack()
+    if last != None and not last.is_full():
+      last.push(data)
+    else:
+      stack = SetStack(self.capacity)
+      stack.push(data)
+      stacks.add(stack)
+    
+  def pop(self):
+    last = self.get_last_stack()
+    if last == None:
+      return 'error'
+    v = last.pop()
+    if len(last) == 0:
+      self.stacks.pop(-1)
+    return v
+
   def is_empty(self):
-    return self.top == None
+    last = self.get_last_stack()
+    return last == None or last.is_empty()
 
-  def min(self):
-    return peek().min
+  def pop_at(self, index):
+    return left_shift(index, True)
 
-class StackMinNode:
-  def __init__(self, data, minimum):
-    self.data = data
-    self.next = None
-    self.min = minimum
+  def left_shift(self, index, remove_top):
+    stack = self.stacks[index]
+    if (remove_top):
+      removed_item = stack.pop()
+    else:
+      removed_item = stack.remove_bottom()
+    
+    if stack.is_empty():
+      self.stacks.pop(index)
+    elif len(self.stacks) > index + 1:
+      v = left_shift(index + 1, False)
+      stack.push(v)
+    
+    return removed_item
+
+class SetStack:
+  def __init__(self, capacity):
+    self.capacity = capacity
+    self.size = 0
+    self.bottom = None
+    self.top = None
+
+  def is_full(self):
+    return self.capacity == self.size
+
+  def join(self, above, below):
+    if below != None:
+      below.above = above
+    if above != None:
+      above.below = below
+
+  def push(self, data):
+    if self.size >= self.capacity:
+      return False
+    self.size += 1
+    n = StackNode(data)
+    if self.size == 1:
+      self.bottom = n
+    self.join(n, top)
+    self.top = n
+    return True
+
+  def pop(self):
+    t = self.top
+    top = top.below
+    size -= 1
+    return t.data
+
+  def is_empty(self):
+    return self.size == 0
+
+  def remove_bottom(self):
+    b = self.bottom
+    self.bottom = bottom.above
+    if self.bottom != None:
+      bottom.below = None
+    self.size -= 1
+    return b.data
