@@ -258,3 +258,70 @@ class SetStack:
       bottom.below = None
     self.size -= 1
     return b.data
+
+# Implement a queue via stacks
+# newest items go in 1st stack, when you want to remove an item
+# shift all items to second stack, pop first item, the 'oldest' item
+
+class MyQueue:
+  def __init__(self):
+    stack_newest = Stack()
+    stack_oldest = Stack()
+
+  def size(self):
+    return len(self.stack_newest) + len(self.stack_oldest)
+
+  def add(self, value):
+    # push onto new stack, where the newest elements are on top
+    self.stack_newest.push(value)
+
+  def shift_stacks(self):
+    if self.stack_oldest.is_empty():
+      while not self.stack_oldest.is_empty():
+        self.stack_oldest.push(stack_newest.pop())
+
+  def peek(self):
+    self.shift_stacks()
+    return self.stack_oldest.peek()
+
+  def remove(self):
+    self.shift_stacks()
+    return self.stack_oldest.pop()
+
+
+# Implement a sort function that sorts a stack such that the smallest
+# items are on the top
+
+class SortStack(Stack):
+  def sort(self, s):
+    r = Stack()
+    while not s.is_empty():
+      tmp = s.pop()
+      while not r.is_empty() and r.peek() > tmp:
+        s.push(r.pop())
+      r.push(tmp)
+
+    while not r.is_empty():
+      s.push(r.pop())
+
+# Animal Shelter: queue where people can choose to either adopt 'oldest' pet,
+# 'oldest' dog, or 'oldest' cat
+
+class Animal:
+  def __init__(self, n):
+    self.name = n
+
+  def set_order(self, order):
+    self.order = order
+
+  def get_order(self):
+    return self.order
+
+  def is_older_than(self, a):
+    return self.order < a.get_order()
+
+
+    
+class AnimalQueue:
+  def __init__(self)
+  
