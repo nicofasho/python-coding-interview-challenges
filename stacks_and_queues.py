@@ -320,8 +320,47 @@ class Animal:
   def is_older_than(self, a):
     return self.order < a.get_order()
 
+class Dog(Animal):
+  def __init__(self, n):
+    self.name = n
 
-    
+class Cat(Animal):
+  def __init__(self, n):
+    self.name = n
+
 class AnimalQueue:
-  def __init__(self)
+  def __init__(self):
+    # assuming I have a LinkedList Class made
+    self.dogs = LinkedList()
+    self.cats = LinkedList()
+    self.order = 0
+
+  def enqueue(self, a):
+    a.set_order(self.order)
+    self.order += 1
+
+    if isinstance(a, Dog):
+      dogs.add_last(a)
+    elif isinstance(a, Cat):
+      cats.add_last(a)
   
+  def dequeue_any(self):
+    # look at tops of dog and cat queues, and pop the queue with the oldest value
+    if self.dogs.size() == 0:
+      return self.dequeue_cats()
+    elif self.cats.size() == 0:
+      return self.dequeue_dogs()
+
+    dog = dogs.peek()
+    cat = cats.peek()
+
+    if dog.is_older_than(cat):
+      return self.dequeue_dogs()
+    else:
+      return self.dequeue_cats()
+
+  def dequeue_dogs(self):
+    return self.dogs.poll()
+
+  def dequeue_cats(self):
+    return self.cats.poll()
